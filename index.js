@@ -35,7 +35,7 @@ app.use(morgan('dev'))
 app.set("io", io);
 app.set("trust proxy", 1);
 
-app.use('/server/user', userRouter)
+app.use('/api/user', userRouter)
 
 
 httpServer.listen(PORT, () => {

@@ -1,8 +1,10 @@
 const express = require('express');
-const { registerUser, loginUser } = require('../controllers/userController');
+const { registerUser, loginUser, getUserList } = require('../controllers/userController');
+const { sendJson } = require('../middlewares/sendJson');
+const { authenticateToken } = require('../middlewares/auth/authenticateToken');
 const router = express.Router()
 
-router.route('/')
+router.route('/register')
     .post(async (req, res) => {
         const data = await registerUser(req, res);
         sendJson(res, data);
@@ -12,7 +14,12 @@ router.route('/')
     })
 router.route('/login')
     .post(async (req, res) => {
-        const data = await loginUser(req, res)
+        const data = await loginUser(req, res);
+        sendJson(res, data)
+    })
+router.route('/')
+    .get(authenticateToken, async (req, res) => {
+        const data = await getUserList(req, res);
         sendJson(res, data)
     })
 

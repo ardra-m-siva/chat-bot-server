@@ -9,9 +9,8 @@ module.exports.registerUser = async (req, res) => {
         if (existingUser) return { code: 400, message: 'Email already exists' }
         const generatedSalt = await bcrypt.genSalt(10)
         req.body.password = await bcrypt.hash(req.body.password, generatedSalt)
-        const newUser = new userModel(req.body).save()
-        return { data: newUser, message: 'User registered successfully' }
-
+        const newUser = await userModel(req.body).save()
+        return { data: newUser, message: 'User registered successfully', success: true }
     } catch (error) {
         return handleError(error)
     }
@@ -19,18 +18,29 @@ module.exports.registerUser = async (req, res) => {
 
 module.exports.loginUser = async (req, res) => {
     try {
-        const { loginId, password } = req.body
-        const condition = {
-            $or: [{ username: loginId }, { email: loginId }]
-        }
-        const userDetails = await userModel.findOne(condition).select('+password')
-        const isMatch = await bcrypt.compare(password, userDetails.password)
+        const { loginId, loginPassword } = req.body
+        const userDetails = await userModel.findOne({ $or: [{ username: loginId }, { email: loginId }] })
+            .select('+password')
+            .lean();
+        if (!userDetails) return { code: 404, message: "Invalid credentials" }
+        const isMatch = await bcrypt.compare(loginPassword, userDetails.password)
         if (!isMatch) {
-            return { code: 401, message: "Invalid credentials" }
+            return { code: 401, message: "Invalid password" }
         }
-        const { _id, name, username, email } = userDetails
-        const token = await jwt.sign({ id: _id, name, username, email }, process.env.SECRET_KEY, { expiresIn: '24h' })
-        return { data: { token, }, message: 'login successfull' }
+        const { _id, name, username, email, password, ...userWithoutPassword } = userDetails
+        const payload = { id: _id, name, username, email }
+        const token = await jwt.sign(payload, process.env.SECRET_KEY, { expiresIn: '24h' })
+        return { data: { token, user: { ...payload, ...userWithoutPassword } }, message: 'login successfull', success: true }
+    } catch (error) {
+        return handleError(error)
+    }
+}
+
+module.exports.getUserList = async (req, res) => {
+    try {
+        const { searchUser } = req.query
+        const userList = await userModel.find({ username: { $regex: searchUser, $options: 'i' } })
+        return { message: 'User list fetched successfully', data: userList, success: true }
     } catch (error) {
         return handleError(error)
     }
