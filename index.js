@@ -2,8 +2,11 @@ require('dotenv').config()
 const express = require('express');
 const cors = require('cors');
 const morgan = require('morgan');
+const swaggerUI = require('swagger-ui-express')
+const swaggerSpec = require('./swagger/swagger');
 
 const userRouter = require('./routes/userRouter');
+const chatRouter = require('./routes/chatRouter')
 const chatSocket = require('./sockets/chatSocket');
 
 // set port number
@@ -26,7 +29,7 @@ chatSocket(io)
 
 app.use(express.json())
 app.use(cors({
-    origin:'*'
+    origin: '*'
 }))
 
 // morgan is basically used to console all request reaching in the server- dev, common, combined, etc. are the methods are used 
@@ -34,16 +37,15 @@ app.use(morgan('dev'))
 // to setup socket 
 app.set("io", io);
 app.set("trust proxy", 1);
+app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerSpec))
 
 app.use('/api/user', userRouter)
-
+app.use('/api/chats', chatRouter)
 
 httpServer.listen(PORT, () => {
     console.log("Server Started Successfully", PORT);
 })
 
 app.get('/', (req, res) => {
-    res.send('Server started')
+    res.send('Server started - CHAT ')
 })
-
-

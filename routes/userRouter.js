@@ -9,9 +9,6 @@ router.route('/register')
         const data = await registerUser(req, res);
         sendJson(res, data);
     })
-    .get((req, res) => {
-
-    })
 router.route('/login')
     .post(async (req, res) => {
         const data = await loginUser(req, res);
@@ -23,4 +20,4 @@ router.route('/')
         sendJson(res, data)
     })
 
-module.exports = router
+module.exports = router;
