@@ -6,7 +6,7 @@ const router = express.Router()
 
 router.route('/')
     .get(authenticateToken, async (req, res) => {
-        const data = await allChats(req, res);
+        const data = await allChats(req, res);  
         sendJson(res, data)
     })
     .post(authenticateToken, async (req, res) => {

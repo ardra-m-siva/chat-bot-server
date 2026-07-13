@@ -7,6 +7,7 @@ const swaggerSpec = require('./swagger/swagger');
 
 const userRouter = require('./routes/userRouter');
 const chatRouter = require('./routes/chatRouter')
+const messageRouter = require('./routes/messageRouter')
 const chatSocket = require('./sockets/chatSocket');
 
 // set port number
@@ -41,6 +42,7 @@ app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerSpec))
 
 app.use('/api/user', userRouter)
 app.use('/api/chats', chatRouter)
+app.use('/api/messages', messageRouter)
 
 httpServer.listen(PORT, () => {
     console.log("Server Started Successfully", PORT);
