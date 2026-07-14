@@ -1,11 +1,18 @@
 const express = require('express')
 const { sendJson } = require('../middlewares/sendJson')
-const { sendMessage } = require('../controllers/messageController')
+const { sendMessage, getMessages } = require('../controllers/messageController')
 const router = express.Router()
+const upload = require('../middlewares/fileUpload')
+const { authenticateToken } = require('../middlewares/auth/authenticateToken')
 
 router.route('/')
-    .post(async (req, res) => {
-        const data = sendMessage(req, res)
+    .post(authenticateToken, upload.single('media'), async (req, res) => {
+        const data = await sendMessage(req, res)
+        sendJson(res, data)
+    })
+
+    .get(authenticateToken, async (req, res) => {
+        const data = await getMessages(req, res)
         sendJson(res, data)
     })
 
