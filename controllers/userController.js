@@ -33,7 +33,13 @@ module.exports.loginUser = async (req, res) => {
         const { _id, name, username, email, password, ...userWithoutPassword } = userDetails
         const payload = { id: _id, name, username, email }
         const token = await jwt.sign(payload, process.env.SECRET_KEY, { expiresIn: '24h' })
-        return { data: { token, user: { ...payload, ...userWithoutPassword } }, message: 'login successfull', success: true }
+        res.cookie("token", token, {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === "production",
+            sameSite: "lax",
+            maxAge: 24 * 60 * 60 * 1000
+        })
+        return { data: { user: { ...payload, ...userWithoutPassword } }, message: 'login successfull', success: true }
     } catch (error) {
         return handleError(error)
     }
@@ -54,6 +60,19 @@ module.exports.getUserList = async (req, res) => {
         }).select("name username avatar isOnline").limit(10);
 
         return { data: userList, message: 'User list fetched successfully', success: true }
+    } catch (error) {
+        return handleError(error)
+    }
+}
+
+module.exports.logOutUser = async (req, res) => {
+    try {
+        res.clearCookie("token", {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === "production",
+            sameSite: "lax"
+        });
+        return { success: true, message: "Logged out successfully" }
     } catch (error) {
         return handleError(error)
     }

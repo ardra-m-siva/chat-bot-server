@@ -2,6 +2,7 @@ require('dotenv').config()
 const express = require('express');
 const cors = require('cors');
 const morgan = require('morgan');
+const cookieParser = require("cookie-parser");
 const swaggerUI = require('swagger-ui-express')
 const swaggerSpec = require('./swagger/swagger');
 
@@ -29,8 +30,10 @@ const io = require('socket.io')(httpServer, {
 chatSocket(io)
 
 app.use(express.json())
+app.use(cookieParser());
 app.use(cors({
-    origin: '*'
+    origin: '*',
+    credentials: true
 }))
 
 // morgan is basically used to console all request reaching in the server- dev, common, combined, etc. are the methods are used 
