@@ -15,5 +15,13 @@ module.exports.messageValidator = (validationType) => {
                     .isIn(["text", "image", "video", "file"])
                     .withMessage("Invalid message type"),
             ]
+        case 'getMessage':
+            return [
+                body('chatId')
+                    .notEmpty()
+                    .withMessage("Chat ID is required")
+                    .isMongoId()
+                    .withMessage("Invalid Chat ID"),
+            ]
     }
 }

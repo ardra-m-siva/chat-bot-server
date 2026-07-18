@@ -134,6 +134,8 @@
  *          tags:
  *              - Users
  *          summary: get user list
+ *          security:
+ *              - cookieAuth: []
  *          parameters:
  *              - in: query
  *                name: searchUser

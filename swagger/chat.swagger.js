@@ -5,4 +5,7 @@
  *      tags:
  *          - Chats
  *      summary: Get chat list
+ *      security:
+ *          - cookieAuth: []
+ *      
  */

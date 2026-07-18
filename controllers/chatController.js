@@ -2,7 +2,6 @@ const { handleError } = require("../middlewares/handleError");
 const chatModel = require("../models/chatModel");
 const userModel = require("../models/userModel");
 
-
 module.exports.allChats = async (req, res) => {
     try {
         const { id } = req;
