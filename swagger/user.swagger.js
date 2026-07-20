@@ -160,3 +160,27 @@
  *                                      items:
  *                                          $ref: '#/components/schemas/User'                                    
  */
+
+// ------------------------------------------------Logout user-----------------
+/**
+ * @openapi
+ * /user/logout:
+ *  post:
+ *      tags:
+ *          - Users
+ *      summary: logout user
+ *      security:
+ *          - cookieAuth: []
+ *      responses:
+ *          200:
+ *              description: Logged out successfully
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          type: object
+ *                          properties: 
+ *                              success: 
+ *                                  type: boolean
+ *                              message:
+ *                                  type: string
+ */
