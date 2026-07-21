@@ -34,7 +34,7 @@ module.exports.getMessages = async (req, res) => {
         const skip = (page - 1) * limit
         const existingChat = await chatModel.findById(chatId)
         if (!existingChat)
-            return { code: 404, message: 'chat not found ' }
+            return { code: 404, message: 'chat not found!' }
         const isParticipant = existingChat.participants.some(participants => participants.equals(senderId))
         if (!isParticipant)
             return { code: 403, message: "You are not authorized to access this chat." }
