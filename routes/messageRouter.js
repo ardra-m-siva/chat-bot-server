@@ -8,7 +8,7 @@ const { validateRequest } = require('../middlewares/handleError')
 const { messageValidator } = require('../middlewares/validators/messageValidator')
 
 router.route('/')
-    .post(authenticateToken, messageValidator('send'), validateRequest(), upload.single('media'), async (req, res) => {
+    .post(authenticateToken, upload.single('media'), messageValidator('send'), validateRequest(), async (req, res) => {
         const data = await sendMessage(req, res)
         sendJson(res, data)
     })
