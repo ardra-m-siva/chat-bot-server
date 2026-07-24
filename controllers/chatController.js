@@ -5,7 +5,11 @@ const userModel = require("../models/userModel");
 module.exports.allChats = async (req, res) => {
     try {
         const { id } = req;
-        const chatList = await chatModel.find({ participants: id })
+        const chatList = await chatModel.find({ participants: id }).populate({
+            path: "participants",
+            match: { _id: { $ne: id } },
+            select: "name username avatar"
+        });
         return { data: chatList, message: 'Chat fetched successfully.', success: true }
     } catch (error) {
         return handleError(error)

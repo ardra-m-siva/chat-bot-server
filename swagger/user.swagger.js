@@ -119,7 +119,7 @@
  *                              message:
  *                                  type: string
  *                              data:
- *                                  $ref: '#/components/schemas/User'           
+ *                                  $ref: '#/components/schemas/User'
  *          404:
  *              description: Invalid credentials
  *          401:
@@ -158,7 +158,7 @@
  *                                  data:
  *                                      type: array
  *                                      items:
- *                                          $ref: '#/components/schemas/User'                                    
+ *                                          $ref: '#/components/schemas/User'
  */
 
 // ------------------------------------------------Logout user-----------------
@@ -178,9 +178,35 @@
  *                  application/json:
  *                      schema:
  *                          type: object
- *                          properties: 
- *                              success: 
+ *                          properties:
+ *                              success:
  *                                  type: boolean
  *                              message:
  *                                  type: string
+ */
+
+// ------------------------------------------------authenticate user-----------------
+/**
+ * @openapi
+ * /user/me:
+ *  get:
+ *      tags:
+ *          - Users
+ *      summary: verify user identity
+ *      security:
+ *          - cookieAuth: []
+ *      responses:
+ *          200:
+ *              description: Authentication successful
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          type: object
+ *                          properties:
+ *                              success:
+ *                                  type: boolean
+ *                              message:
+ *                                  type: string
+ *                              date:
+ *                                  $ref: '#/components/schemas/User'
  */

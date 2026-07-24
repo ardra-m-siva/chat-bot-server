@@ -1,5 +1,5 @@
 const express = require('express');
-const { registerUser, loginUser, getUserList, logOutUser } = require('../controllers/userController');
+const { registerUser, loginUser, getUserList, logOutUser, autheticateUser } = require('../controllers/userController');
 const { sendJson } = require('../middlewares/sendJson');
 const { authenticateToken } = require('../middlewares/auth/authenticateToken');
 const { userValidator } = require('../middlewares/validators/userValidator');
@@ -24,6 +24,11 @@ router.route('/')
 router.route('/logout')
     .post(authenticateToken, async (req, res) => {
         const data = await logOutUser(req, res)
+        sendJson(res, data)
+    })
+router.route('/me')
+    .get(authenticateToken, async (req, res) => {
+        const data = await autheticateUser(req, res)
         sendJson(res, data)
     })
 

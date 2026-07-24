@@ -77,3 +77,11 @@ module.exports.logOutUser = async (req, res) => {
         return handleError(error)
     }
 }
+
+module.exports.autheticateUser = async (req, res) => {
+    try {
+        return { data: req.user, success: true, message: 'Authentication successful' }
+    } catch (error) {
+        return handleError(error)
+    }
+}

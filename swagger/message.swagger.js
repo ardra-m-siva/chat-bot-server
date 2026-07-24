@@ -125,18 +125,13 @@
  *      summary: get all messages in a particular chat with the user
  *      security:
  *          - cookieAuth: []
- *      requestBody:
- *          required: true
- *          content:
- *              application/json:
- *                  schema:
- *                      type: object
- *                      properties:
- *                          chatId:
- *                              type: string
- *                              example: 686c9df23e83f4c123456789
- *
  *      parameters:
+ *          - in: query
+ *            name: chatId
+ *            schema:
+ *              type: string
+ *            example: 686c9df23e83f4c123456789
+ *            description: chat Id 
  *          - in: query
  *            name: limit
  *            schema:
@@ -149,7 +144,7 @@
  *            schema:
  *              type: integer
  *              default: 1
- *            example: 2
+ *            example: 1
  *            description: Page number
  *      responses:
  *          200:

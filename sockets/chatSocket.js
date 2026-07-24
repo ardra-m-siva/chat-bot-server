@@ -5,8 +5,9 @@ const chatSocket = (io) => {
         console.log("User connected:", socket.id);
 
         socket.on("join", (userId) => {
-            onlineUsers[userId] = socket.id;
+
             console.log("User joined:", userId);
+            onlineUsers[userId] = socket.id;
         });
 
         socket.on("sendMessage", ({ senderId, receiverId, text }) => {

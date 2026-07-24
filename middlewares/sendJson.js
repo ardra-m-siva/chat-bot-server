@@ -1,5 +1,5 @@
 module.exports.sendJson = (res, { code = 200, message, data, success = false }) => {
-    console.log(code, message, data, success    )
+    // console.log(code, message, data, success    )
     if (!isValidHttpStatusCode(code)) {
         code = 500
     }

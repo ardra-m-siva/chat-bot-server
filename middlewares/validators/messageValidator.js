@@ -1,4 +1,4 @@
-const { body } = require("express-validator")
+const { body, query } = require("express-validator")
 
 module.exports.messageValidator = (validationType) => {
     switch (validationType) {
@@ -17,7 +17,7 @@ module.exports.messageValidator = (validationType) => {
             ]
         case 'getMessage':
             return [
-                body('chatId')
+                query('chatId')
                     .notEmpty()
                     .withMessage("Chat ID is required")
                     .isMongoId()

@@ -52,7 +52,34 @@
  *                              data:
  *                                  type: array
  *                                  items:
- *                                      $ref: '#/components/schemas/Chats' 
+ *                                      type: object
+ *                                      properties:
+ *                                          _id:
+ *                                              type: string
+ *                                              example: 686c9df23e83f4c123456789
+ *                                          participants:
+ *                                              type: array
+ *                                              items:
+ *                                                  type: object
+ *                                                  properties:
+ *                                                      _id:
+ *                                                          type: string
+ *                                                          example: 687b5d5b3ef9a94a0f8d8a52
+ *                                                      name:
+ *                                                          type: string
+ *                                                      username:
+ *                                                          type: string
+ *                                                      avatar:
+ *                                                          type: string
+ *                                          lastMessage:
+ *                                              type: string
+ *                                              example: 687b5d5b3ef9a94a0f8d8a52
+ *                                          createdAt:
+ *                                              type: string
+ *                                              format: date-time
+ *                                          updatedAt:
+ *                                              type: string
+ *                                              format: date-time                            
  *          500:
  *              description: Internal server error
  */

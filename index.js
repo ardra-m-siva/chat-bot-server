@@ -32,7 +32,13 @@ chatSocket(io)
 app.use(express.json())
 app.use(cookieParser());
 app.use(cors({
-    origin: '*',
+    origin: (origin, callback) => {
+        // Allow requests with no origin (e.g., Postman)
+        if (!origin) return callback(null, true);
+
+        // Allow any origin
+        callback(null, true);
+    },
     credentials: true
 }))
 

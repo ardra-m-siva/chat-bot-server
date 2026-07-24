@@ -29,8 +29,7 @@ module.exports.sendMessage = async (req, res) => {
 module.exports.getMessages = async (req, res) => {
     try {
         const senderId = req.id;
-        const { chatId } = req.body;
-        const { limit = 30, page = 1 } = req.query;
+        const { chatId, limit = 30, page = 1 } = req.query;
         const skip = (page - 1) * limit
         const existingChat = await chatModel.findById(chatId)
         if (!existingChat)
