@@ -1,6 +1,7 @@
 const { handleError } = require("../middlewares/handleError");
 const chatModel = require("../models/chatModel");
-const messageModel = require('../models/messageModel')
+const messageModel = require('../models/messageModel');
+const onlineUsers = require("../sockets/onlineUsers");
 
 module.exports.sendMessage = async (req, res) => {
     try {
@@ -16,10 +17,19 @@ module.exports.sendMessage = async (req, res) => {
             chat: chatId,
             senderId,
             messageType,
-            media: media.path || '',
+            media: media?.path || '',
             text
         }).save()
+        const io = req.app.get("io");
+        const chat = await chatModel.findById(chatId);
+        const receiverId = chat.participants.find(
+            id => id.toString() !== senderId.toString()
+        );
 
+        const receiverSocketId = onlineUsers[receiverId.toString()];        
+        if (receiverSocketId) {
+            io.to(receiverSocketId).emit("receiveMessage", newMessage);
+        }
         return { data: newMessage, message: 'Message saved successfully', success: true }
     } catch (error) {
         return handleError(error);

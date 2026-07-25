@@ -25,6 +25,8 @@ const io = require('socket.io')(httpServer, {
         origin: '*'
     }
 });
+// to setup socket 
+app.set("io", io);
 
 // create socket io server
 chatSocket(io)
@@ -44,8 +46,6 @@ app.use(cors({
 
 // morgan is basically used to console all request reaching in the server- dev, common, combined, etc. are the methods are used 
 app.use(morgan('dev'))
-// to setup socket 
-app.set("io", io);
 app.set("trust proxy", 1);
 app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerSpec))
 

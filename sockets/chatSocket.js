@@ -1,4 +1,4 @@
-const onlineUsers = {};
+const onlineUsers = require("./onlineUsers");
 
 const chatSocket = (io) => {
     io.on("connection", (socket) => {
@@ -8,11 +8,15 @@ const chatSocket = (io) => {
 
             console.log("User joined:", userId);
             onlineUsers[userId] = socket.id;
+            console.log("onlineUsers", onlineUsers);
         });
 
         socket.on("sendMessage", ({ senderId, receiverId, text }) => {
             const receiverSocketId = onlineUsers[receiverId];
 
+            console.log(onlineUsers);
+            console.log(text);
+            
             if (receiverSocketId) {
                 io.to(receiverSocketId).emit("receiveMessage", {
                     senderId,
