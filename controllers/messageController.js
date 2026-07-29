@@ -26,7 +26,7 @@ module.exports.sendMessage = async (req, res) => {
             id => id.toString() !== senderId.toString()
         );
 
-        const receiverSocketId = onlineUsers[receiverId.toString()];        
+        const receiverSocketId = onlineUsers[receiverId.toString()];
         if (receiverSocketId) {
             io.to(receiverSocketId).emit("receiveMessage", newMessage);
         }
@@ -49,6 +49,16 @@ module.exports.getMessages = async (req, res) => {
             return { code: 403, message: "You are not authorized to access this chat." }
         const chats = await messageModel.find({ chat: chatId }).sort({ createdAt: 1 }).skip(skip).limit(limit)
         return { data: chats, message: 'Messages fetched successfully', success: true }
+    } catch (error) {
+        return handleError(error)
+    }
+}
+
+module.exports.unSendMessage = async (req, res) => {
+    try {
+        const { messageId } = req.query
+        const message = await messageModel.findByIdAndDelete(messageId)
+        return { message: "message deleted successfully", success: true }
     } catch (error) {
         return handleError(error)
     }

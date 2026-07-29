@@ -1,6 +1,6 @@
 const express = require('express')
 const { sendJson } = require('../middlewares/sendJson')
-const { sendMessage, getMessages } = require('../controllers/messageController')
+const { sendMessage, getMessages, unSendMessage } = require('../controllers/messageController')
 const router = express.Router()
 const upload = require('../middlewares/fileUpload')
 const { authenticateToken } = require('../middlewares/auth/authenticateToken')
@@ -15,6 +15,12 @@ router.route('/')
 
     .get(authenticateToken, messageValidator('getMessage'), validateRequest(), async (req, res) => {
         const data = await getMessages(req, res)
+        sendJson(res, data)
+    })
+
+    // ! check this controller
+    .delete(authenticateToken, async (req, res) => {
+        const data = await unSendMessage(req, res)
         sendJson(res, data)
     })
 
