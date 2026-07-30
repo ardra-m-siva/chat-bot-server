@@ -167,3 +167,38 @@
  *          404: 
  *              description: chat not found!
  */
+
+// unsend message with was send 
+/**
+ * @openapi
+ * /messages:
+ *  delete:
+ *      tags:
+ *          - Messages
+ *      summary: unsend the message which was already send or simply delete a message 
+ *      security:
+ *          - cookieAuth: []
+ *      parameters:
+ *          - in: query
+ *            name: messageId
+ *            schema:
+ *              type: string
+ *            example: 686c9df23e83f4c123456789
+ *            description: _id of particular message 
+ *      responses:
+ *          200:
+ *              description: Message deleted successfully
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          type: object
+ *                          properties:
+ *                              success:
+ *                                  type: boolean
+ *                              message:
+ *                                  type: string
+ *          403:
+ *              description: You are not authorized to access this chat.
+ *          404:
+ *              description: Message not found or you are not authorized
+ */

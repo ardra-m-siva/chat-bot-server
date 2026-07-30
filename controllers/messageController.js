@@ -56,8 +56,14 @@ module.exports.getMessages = async (req, res) => {
 
 module.exports.unSendMessage = async (req, res) => {
     try {
+        const { id } = req
         const { messageId } = req.query
-        const message = await messageModel.findByIdAndDelete(messageId)
+        const message = await messageModel.findoneAndDelete({
+            _id: messageId, senderId: id
+        })
+        if (!message) {
+            return { code: 400, message: "Message not found or you are not authorized" }
+        }
         return { message: "message deleted successfully", success: true }
     } catch (error) {
         return handleError(error)

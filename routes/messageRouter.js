@@ -18,7 +18,6 @@ router.route('/')
         sendJson(res, data)
     })
 
-    // ! check this controller
     .delete(authenticateToken, async (req, res) => {
         const data = await unSendMessage(req, res)
         sendJson(res, data)
