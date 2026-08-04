@@ -36,3 +36,5 @@ module.exports.createOrGetChat = async (req, res) => {
         return handleError(error)
     }
 }
+
+// TODO: what about a group chat.

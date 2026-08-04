@@ -38,6 +38,7 @@ module.exports.sendMessage = async (req, res) => {
 
 module.exports.getMessages = async (req, res) => {
     try {
+        // ! what if there are hundreds of messages, and this controller seems to be inefficient in the pagination. 
         const senderId = req.id;
         const { chatId, limit = 30, page = 1 } = req.query;
         const skip = (page - 1) * limit
@@ -57,9 +58,16 @@ module.exports.getMessages = async (req, res) => {
 module.exports.unSendMessage = async (req, res) => {
     try {
         const { id } = req
-        const { messageId } = req.query
-        const message = await messageModel.findoneAndDelete({
-            _id: messageId, senderId: id
+        const { messageIds } = req.body
+        if (!Array.isArray(messageIds) || messageIds.length === 0) {
+            return {
+                code: 400,
+                message: "Please provide message IDs.",
+            };
+        }
+
+        const message = await messageModel.deleteMany({
+            _id: { $in: messageIds }, senderId: id
         })
         if (!message) {
             return { code: 400, message: "Message not found or you are not authorized" }
@@ -69,3 +77,5 @@ module.exports.unSendMessage = async (req, res) => {
         return handleError(error)
     }
 }
+
+// TODO: a message should be set to seen and delivered.

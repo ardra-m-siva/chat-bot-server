@@ -178,13 +178,19 @@
  *      summary: unsend the message which was already send or simply delete a message 
  *      security:
  *          - cookieAuth: []
- *      parameters:
- *          - in: query
- *            name: messageId
- *            schema:
- *              type: string
- *            example: 686c9df23e83f4c123456789
- *            description: _id of particular message 
+ *      requestBody:
+ *          required: true
+ *          content:
+ *              application/json:
+ *                  schema:
+ *                      type: object
+ *                      properties:
+ *                          messageIds:
+ *                              type: array
+ *                              items:
+ *                                  type: string
+ *                                  example: 686c9df23e83f4c123456789
+ *                              description: _id of messages 
  *      responses:
  *          200:
  *              description: Message deleted successfully
