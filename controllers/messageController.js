@@ -38,7 +38,6 @@ module.exports.sendMessage = async (req, res) => {
 
 module.exports.getMessages = async (req, res) => {
     try {
-        // ! what if there are hundreds of messages, and this controller seems to be inefficient in the pagination. 
         const senderId = req.id;
         const { chatId, limit = 30, page = 1 } = req.query;
         const skip = (page - 1) * limit
@@ -61,7 +60,7 @@ module.exports.unSendMessage = async (req, res) => {
         const { messageIds } = req.body
         if (!Array.isArray(messageIds) || messageIds.length === 0) {
             return {
-                code: 400,
+                code: 422,
                 message: "Please provide message IDs.",
             };
         }

@@ -203,8 +203,8 @@
  *                                  type: boolean
  *                              message:
  *                                  type: string
- *          403:
- *              description: You are not authorized to access this chat.
- *          404:
+ *          422:
+ *              description: Please provide message IDs.
+ *          400:
  *              description: Message not found or you are not authorized
  */
