@@ -60,3 +60,7 @@ httpServer.listen(PORT, () => {
 app.get('/', (req, res) => {
     res.send('Server started - CHAT ')
 })
+
+app.get('/health', (req, res) => {
+    res.status(200).json({ status: 'ok' });
+});
